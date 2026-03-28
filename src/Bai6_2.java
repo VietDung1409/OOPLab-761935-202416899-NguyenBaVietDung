@@ -9,6 +9,6 @@ public class Bai6_2 {
         System.out.println("How tall are you (m)?");
         double dHeight = keyboard.nextDouble();
         System.out.println("Mrs/Ms. " + strName + ", " +iAge + " years old. " + "Your height is " + dHeight + ".");
-
+        
     }
 }
