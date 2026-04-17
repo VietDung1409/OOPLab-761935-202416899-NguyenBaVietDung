@@ -9,14 +9,19 @@ public class Track {
         this.length = length;
     }
 
-    public int getLength() { return length; }
+    public String getTitle() {
+        return title;
+    }
 
-    public void play() {
-        if (length <= 0) {
-            System.out.println("ERROR: Track cannot be played");
-            return;
-        }
-        System.out.println("Playing Track: " + title);
-        System.out.println("Length: " + length);
+    public int getLength() {
+        return length;
+    }
+
+    // Quan trọng để check trùng
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Track)) return false;
+        Track other = (Track) obj;
+        return this.title.equals(other.title) && this.length == other.length;
     }
 }

@@ -2,21 +2,38 @@ package hust.soict.hedspi.aims.media;
 
 import java.util.ArrayList;
 
-public class CompactDisc extends Media implements Playable {
+public class CompactDisc extends Disc implements Playable {
     private String artist;
-    private String director;
     private ArrayList<Track> tracks = new ArrayList<>();
 
-    public CompactDisc(int id, String title, String category, String artist, String director, double cost) {
-        super(id, title, category, cost);
+    public CompactDisc(int id, String title, String category, float cost, String artist) {
+        super(id, title, category, cost, 0, "");
         this.artist = artist;
-        this.director = director;
     }
 
-    public void addTrack(Track t) {
-        tracks.add(t);
+    public String getArtist() {
+        return artist;
     }
 
+    public void addTrack(Track track) {
+        if (!tracks.contains(track)) {
+            tracks.add(track);
+            System.out.println("Added track: " + track.getTitle());
+        } else {
+            System.out.println("Track already exists");
+        }
+    }
+
+    public void removeTrack(Track track) {
+        if (tracks.contains(track)) {
+            tracks.remove(track);
+            System.out.println("Removed track: " + track.getTitle());
+        } else {
+            System.out.println("Track not found");
+        }
+    }
+
+    // Tổng length
     public int getLength() {
         int total = 0;
         for (Track t : tracks) {
@@ -27,21 +44,15 @@ public class CompactDisc extends Media implements Playable {
 
     @Override
     public void play() {
-        if (getLength() <= 0) {
-            System.out.println("ERROR: CD cannot be played");
+        if (tracks.isEmpty()) {
+            System.out.println("ERROR: CD has no tracks");
             return;
         }
 
-        System.out.println("Playing CD: " + title);
-        System.out.println("Total Length: " + getLength());
-
+        System.out.println("Playing CD: " + getTitle());
         for (Track t : tracks) {
-            t.play();
+            System.out.println("Track: " + t.getTitle());
+            System.out.println("Length: " + t.getLength());
         }
-    }
-
-    @Override
-    public String toString() {
-        return "CD - " + title + " - " + category + " - " + artist + " - " + getLength() + ": " + cost + " $";
     }
 }
