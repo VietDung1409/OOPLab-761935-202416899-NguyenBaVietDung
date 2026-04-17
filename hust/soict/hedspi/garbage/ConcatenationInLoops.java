@@ -1,4 +1,4 @@
-package hust.soict.dsai.garbage;
+package hust.soict.hedspi.garbage;
 
 public class ConcatenationInLoops {
     public static void main(String[] args) {

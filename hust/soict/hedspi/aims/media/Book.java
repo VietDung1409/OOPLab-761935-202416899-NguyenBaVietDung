@@ -1,29 +1,16 @@
-package hust.soict.dsai.aims.media;
+package hust.soict.hedspi.aims.media;
 
 import java.util.ArrayList;
 
-public class Book {
-    private int id;
-    private String title;
-    private String category;
-    private float cost;
+public class Book extends Media {
     private ArrayList<String> authors = new ArrayList<>();
 
     // Constructor
     public Book(int id, String title, String category, float cost) {
-        this.id = id;
-        this.title = title;
-        this.category = category;
-        this.cost = cost;
+        super(id, title, category, cost);
     }
 
-    // Getter (không cần setter cho authors theo đề)
-    public int getId() { return id; }
-    public String getTitle() { return title; }
-    public String getCategory() { return category; }
-    public float getCost() { return cost; }
-
-    // 🔥 Add author (không trùng)
+    // Add author (không trùng)
     public void addAuthor(String authorName) {
         if (!authors.contains(authorName)) {
             authors.add(authorName);
@@ -33,7 +20,7 @@ public class Book {
         }
     }
 
-    // 🔥 Remove author
+    // Remove author
     public void removeAuthor(String authorName) {
         if (authors.contains(authorName)) {
             authors.remove(authorName);
@@ -43,10 +30,12 @@ public class Book {
         }
     }
 
-    // In thông tin book
     @Override
     public String toString() {
-        return "Book - " + title + " - " + category + " - Authors: " 
-             + authors + " - " + cost + " $";
+        return "Book - " 
+                + getTitle() + " - " 
+                + getCategory() + " - Authors: " 
+                + authors + " - " 
+                + getCost() + " $";
     }
 }

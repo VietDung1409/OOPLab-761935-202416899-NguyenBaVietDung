@@ -1,13 +1,15 @@
-package hust.soict.dsai.garbage;
+package hust.soict.hedspi.garbage;
 
-public class GarbageCreator {
+public class NoGarbage {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
 
-        String s = "";
+        StringBuffer sb = new StringBuffer();
         for (int i = 0; i < 100000; i++) {
-            s += "garbage";
+            sb.append("garbage");
         }
+
+        String s = sb.toString();
 
         long end = System.currentTimeMillis();
         System.out.println("Time: " + (end - start) + " ms");

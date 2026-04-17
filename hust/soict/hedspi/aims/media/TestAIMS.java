@@ -1,4 +1,4 @@
-package hust.soict.dsai.aims.media;
+package hust.soict.hedspi.aims.media;
 public class TestAIMS {
     public static void main(String[] args) {
         DigitalVideoDisc dvd = new DigitalVideoDisc(1, "Lion King", "Animation", "Roger", 90, 19.95);
