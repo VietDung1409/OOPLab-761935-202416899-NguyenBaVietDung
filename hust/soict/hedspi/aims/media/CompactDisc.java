@@ -33,7 +33,7 @@ public class CompactDisc extends Disc implements Playable {
         }
     }
 
-    // Tổng length
+    @Override
     public int getLength() {
         int total = 0;
         for (Track t : tracks) {
@@ -45,14 +45,15 @@ public class CompactDisc extends Disc implements Playable {
     @Override
     public void play() {
         if (tracks.isEmpty()) {
-            System.out.println("ERROR: CD has no tracks");
+            System.out.println("ERROR: CD has no tracks!");
             return;
         }
 
         System.out.println("Playing CD: " + getTitle());
+        System.out.println("Artist: " + artist);
+
         for (Track t : tracks) {
-            System.out.println("Track: " + t.getTitle());
-            System.out.println("Length: " + t.getLength());
+            t.play(); 
         }
     }
 }
