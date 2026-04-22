@@ -1,50 +1,32 @@
 package hust.soict.hedspi.aims.store;
 
+import java.util.ArrayList;
+import hust.soict.hedspi.aims.media.Media;
+
 public class Store {
-    private DigitalVideoDisc[] itemsInStore = new DigitalVideoDisc[100];
-    private int qty = 0;
+    private ArrayList<Media> itemsInStore = new ArrayList<>();
 
-    // 🔥 thêm DVD
-    public void addDVD(DigitalVideoDisc disc) {
-        if (qty < itemsInStore.length) {
-            itemsInStore[qty] = disc;
-            qty++;
-            System.out.println("Added: " + disc.getTitle());
+    // Thêm Media (DVD, Book, CD đều được)
+    public void addMedia(Media media) {
+        itemsInStore.add(media);
+        System.out.println("The media \"" + media.getTitle() + "\" has been added to the store");
+    }
+
+    // Xóa Media
+    public void removeMedia(Media media) {
+        if (itemsInStore.remove(media)) {
+            System.out.println("The media \"" + media.getTitle() + "\" has been removed from the store");
         } else {
-            System.out.println("Store is full");
+            System.out.println("The media is not in the store");
         }
     }
 
-    // 🔥 xóa DVD
-    public void removeDVD(DigitalVideoDisc disc) {
-        boolean found = false;
-
-        for (int i = 0; i < qty; i++) {
-            if (itemsInStore[i] == disc) {
-                found = true;
-
-                // dồn mảng
-                for (int j = i; j < qty - 1; j++) {
-                    itemsInStore[j] = itemsInStore[j + 1];
-                }
-
-                itemsInStore[qty - 1] = null;
-                qty--;
-                System.out.println("Removed: " + disc.getTitle());
-                break;
-            }
+    // In danh sách store (optional nhưng nên có)
+    public void print() {
+        System.out.println("***************STORE***************");
+        for (Media m : itemsInStore) {
+            System.out.println(m.toString());
         }
-
-        if (!found) {
-            System.out.println("Disc not found");
-        }
-    }
-
-    // in store
-    public void printStore() {
-        System.out.println("----- STORE -----");
-        for (int i = 0; i < qty; i++) {
-            System.out.println(itemsInStore[i]);
-        }
+        System.out.println("***********************************");
     }
 }

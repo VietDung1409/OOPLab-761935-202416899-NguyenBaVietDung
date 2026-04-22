@@ -25,14 +25,14 @@ public class DigitalVideoDisc {
     public int getLength() { return length; }
     public double getCost() { return cost; }
 
-    // 🔥 toString() → return type là String
+    //  toString() → return type là String
     @Override
     public String toString() {
         return "DVD - " + title + " - " + category + " - " 
              + director + " - " + length + ": " + cost + " $";
     }
 
-    // 🔥 tìm theo title (không phân biệt hoa thường)
+    //  tìm theo title (không phân biệt hoa thường)
     public boolean isMatch(String title) {
         return this.title.toLowerCase().contains(title.toLowerCase());
     }

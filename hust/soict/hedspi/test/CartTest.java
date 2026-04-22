@@ -13,7 +13,7 @@ public class CartTest {
 
         cart.print();
 
-        // 🔍 test search
+        //  test search
         System.out.println("\nSearch by ID:");
         cart.searchById(2);
 

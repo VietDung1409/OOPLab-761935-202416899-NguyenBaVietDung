@@ -18,20 +18,25 @@ public class Track implements Playable {
     }
 
     @Override
-public void play() {
-    if (this.length <= 0) {
-        System.out.println("ERROR: Track length is non-positive!");
-        return;
-    }
+    public void play() {
+        if (this.length <= 0) {
+            System.out.println("ERROR: Track length is non-positive!");
+            return;
+        }
 
-    System.out.println("Playing Track: " + this.title);
-    System.out.println("Track length: " + this.length);
-}
+        System.out.println("Playing Track: " + this.title);
+        System.out.println("Track length: " + this.length);
+    }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
         if (!(obj instanceof Track)) return false;
+
         Track other = (Track) obj;
-        return this.title.equals(other.title) && this.length == other.length;
+        return this.title != null
+                && this.title.equals(other.title)
+                && this.length == other.length;
     }
 }
