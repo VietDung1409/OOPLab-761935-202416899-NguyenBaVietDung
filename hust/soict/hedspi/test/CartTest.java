@@ -1,3 +1,4 @@
+package hust.soict.hedspi.test;
 public class CartTest {
     public static void main(String[] args) {
         Cart cart = new Cart();
