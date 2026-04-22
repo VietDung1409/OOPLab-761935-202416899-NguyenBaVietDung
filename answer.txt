@@ -1,0 +1,66 @@
+#16.Reading Assignment – Polymorphism & Inheritance
+
+1. Ưu điểm của Polymorphism
+
+- Tăng tính linh hoạt và tái sử dụng code.
+- Cho phép cùng một giao diện nhưng có nhiều cách thực thi khác nhau.
+- Dễ mở rộng hệ thống mà không cần sửa code cũ.
+- Hỗ trợ đa hình tại runtime (chọn method khi chạy chương trình).
+
+2. Inheritance giúp đạt Polymorphism như thế nào?
+
+- Class con kế thừa thuộc tính và phương thức của class cha.
+- Class con có thể override phương thức của class cha.
+- Biến kiểu cha có thể tham chiếu tới object của class con.
+- Nhờ đó tạo ra đa hình khi chạy chương trình.
+
+Ví dụ: Media m = new DigitalVideoDisc();
+
+3. Sự khác nhau giữa Polymorphism và Inheritance
+
+- Inheritance là cơ chế kế thừa giữa các class (quan hệ cha – con).
+- Polymorphism là khả năng một method có nhiều cách thực thi khác nhau.
+
+Khác nhau:
+- Inheritance: nói về cấu trúc.
+- Polymorphism: nói về hành vi khi chạy chương trình.
+#17.
+1. Class nào nên implement Comparable?
+
+Class Media nên implement Comparable<Media> vì Media là lớp cha chung của tất cả các loại item trong giỏ hàng (DVD, CD, Book). Khi đó ta có thể sắp xếp chung các đối tượng Media.
+
+---
+
+2. Cách cài đặt compareTo() để đúng thứ tự mong muốn
+
+Trong method compareTo(), ta định nghĩa thứ tự so sánh theo yêu cầu:
+
+- Nếu sắp xếp theo title rồi cost:
+    + So sánh title trước
+    + Nếu title giống nhau thì so sánh cost
+
+- Nếu sắp xếp theo cost rồi title:
+    + So sánh cost trước
+    + Nếu cost giống nhau thì so sánh title
+
+---
+
+3. Có thể có 2 quy tắc sắp xếp khi dùng Comparable không?
+
+Không. Vì Comparable chỉ cho phép 1 cách sắp xếp mặc định thông qua compareTo().
+Do đó không thể cùng lúc có 2 quy tắc (title-cost và cost-title). Nếu muốn nhiều cách sắp xếp thì phải dùng Comparator.
+
+---
+
+4. DVD có quy tắc sắp xếp khác (title → length giảm dần → cost), xử lý thế nào?
+
+Không nên dùng Comparable chung cho tất cả.
+
+Cách xử lý:
+- Hoặc override compareTo() riêng trong DigitalVideoDisc (nếu DVD là class chính cần sort mặc định)
+- Hoặc tốt hơn: dùng Comparator riêng cho DVD để định nghĩa:
+    + So sánh title
+    + Nếu giống thì so sánh length giảm dần
+    + Nếu vẫn giống thì so sánh cost
+
+Cách này giúp mỗi loại Media có thể có rule sắp xếp riêng mà không ảnh hưởng class khác.
