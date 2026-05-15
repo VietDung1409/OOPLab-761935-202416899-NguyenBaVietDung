@@ -126,17 +126,17 @@ public class StoreManagerScreen extends JFrame {
     }
 
     private void openAddBookScreen() {
-        new AddBookScreen(store, this);
+        new AddBookToStoreScreen(store, this);
         setVisible(false);
     }
 
     private void openAddCDScreen() {
-        new AddCDScreen(store, this);
+        new AddCompactDiscToStoreScreen(store, this);
         setVisible(false);
     }
 
     private void openAddDVDScreen() {
-        new AddDVDScreen(store, this);
+        new AddDigitalVideoDiscToStoreScreen(store, this);
         setVisible(false);
     }
 
