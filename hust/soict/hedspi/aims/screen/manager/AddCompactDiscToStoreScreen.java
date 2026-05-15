@@ -18,6 +18,7 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
 
     public AddCompactDiscToStoreScreen(Store store, StoreManagerScreen parentScreen) {
         super(store, parentScreen, "AIMS - Add CD", 300);
+        init(); // must be called after fields are initialized
     }
 
     @Override

@@ -19,6 +19,7 @@ public class AddDigitalVideoDiscToStoreScreen extends AddItemToStoreScreen {
 
     public AddDigitalVideoDiscToStoreScreen(Store store, StoreManagerScreen parentScreen) {
         super(store, parentScreen, "AIMS - Add DVD", 350);
+        init(); // must be called after fields are initialized
     }
 
     @Override

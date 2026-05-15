@@ -18,6 +18,7 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen {
 
     public AddBookToStoreScreen(Store store, StoreManagerScreen parentScreen) {
         super(store, parentScreen, "AIMS - Add Book", 320);
+        init(); // must be called after fields are initialized
     }
 
     @Override

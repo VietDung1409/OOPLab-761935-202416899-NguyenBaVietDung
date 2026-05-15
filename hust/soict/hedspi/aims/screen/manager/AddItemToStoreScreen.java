@@ -26,9 +26,18 @@ public abstract class AddItemToStoreScreen extends JFrame {
 
         // Shared menu bar across all add screens
         setJMenuBar(createMenuBar());
+        // NOTE: createFormPanel() and createButtonPanel() are called via init()
+        // which subclasses must call at the END of their own constructor,
+        // after their fields are initialized.
+    }
+
+    /**
+     * Must be called at the end of each subclass constructor,
+     * after all fields are initialized.
+     */
+    protected void init() {
         add(createFormPanel(), BorderLayout.CENTER);
         add(createButtonPanel(), BorderLayout.SOUTH);
-
         setLocationRelativeTo(null);
         setVisible(true);
     }
