@@ -1,0 +1,18 @@
+1. Top-level container
+
+AWT dùng Frame, Swing dùng JFrame
+Swing có thêm setDefaultCloseOperation() để xử lý đóng cửa sổ, AWT phải tự xử lý qua WindowAdapter
+Swing có content pane — component phải add vào getContentPane(), AWT add thẳng vào Frame
+2. Tên class component
+
+AWT: Label, TextField, Button, Panel
+Swing: thêm chữ J phía trước — JLabel, JTextField, JButton, JPanel
+Swing có thêm nhiều component phong phú hơn AWT không có: JTable, JTree, JTabbedPane...
+3. Event handling
+
+Hoàn toàn giống nhau — cả hai đều dùng ActionListener, actionPerformed(), addActionListener()
+Không có sự khác biệt nào ở phần này
+4. Giao diện (appearance)
+
+AWT render bằng native OS → trông giống ứng dụng hệ điều hành đang chạy, nhưng giao diện có thể khác nhau giữa Windows/Mac/Linux
+Swing tự vẽ bằng Java (lightweight) → giao diện nhất quán trên mọi nền tảng, hỗ trợ Look and Feel tùy chỉnh
