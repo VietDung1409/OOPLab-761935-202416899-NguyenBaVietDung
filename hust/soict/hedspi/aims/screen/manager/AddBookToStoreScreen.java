@@ -10,7 +10,6 @@ import hust.soict.hedspi.aims.store.Store;
  * Inherits shared menu bar and layout from AddItemToStoreScreen.
  */
 public class AddBookToStoreScreen extends AddItemToStoreScreen {
-    private JTextField tfId       = new JTextField(15);
     private JTextField tfTitle    = new JTextField(15);
     private JTextField tfCategory = new JTextField(15);
     private JTextField tfCost     = new JTextField(15);
@@ -28,10 +27,9 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen {
 
     @Override
     protected JPanel createFormPanel() {
-        JPanel form = new JPanel(new GridLayout(5, 2, 5, 8));
+        JPanel form = new JPanel(new GridLayout(4, 2, 5, 8));
         form.setBorder(BorderFactory.createEmptyBorder(15, 20, 10, 20));
 
-        form.add(new JLabel("ID:"));              form.add(tfId);
         form.add(new JLabel("Title:"));           form.add(tfTitle);
         form.add(new JLabel("Category:"));        form.add(tfCategory);
         form.add(new JLabel("Cost:"));            form.add(tfCost);
@@ -43,7 +41,7 @@ public class AddBookToStoreScreen extends AddItemToStoreScreen {
     @Override
     protected void handleAdd() {
         try {
-            int id       = Integer.parseInt(tfId.getText().trim());
+            int id       = store.getItems().size() + 1;
             String title = tfTitle.getText().trim();
             String cat   = tfCategory.getText().trim();
             float cost   = Float.parseFloat(tfCost.getText().trim());
