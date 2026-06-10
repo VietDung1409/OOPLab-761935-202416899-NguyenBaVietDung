@@ -10,7 +10,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 public class ViewStoreController {
     private static final int STORE_COLUMNS = 3;
@@ -44,7 +46,8 @@ public class ViewStoreController {
                         "Unsupported controller: " + controllerClass.getName());
             });
             Parent root = loader.load();
-            ((Node) event.getSource()).getScene().setRoot(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
         } catch (IOException exception) {
             throw new IllegalStateException("Cannot open the cart screen", exception);
         }
