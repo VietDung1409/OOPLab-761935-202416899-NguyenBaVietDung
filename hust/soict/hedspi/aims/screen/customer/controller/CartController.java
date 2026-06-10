@@ -3,6 +3,7 @@ package hust.soict.hedspi.aims.screen.customer.controller;
 import java.io.IOException;
 
 import hust.soict.hedspi.aims.cart.Cart;
+import hust.soict.hedspi.aims.exception.ItemNotFoundException;
 import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.media.Playable;
 import hust.soict.hedspi.aims.store.Store;
@@ -124,8 +125,12 @@ public class CartController {
     private void btnPlayPressed(ActionEvent event) {
         Media selectedMedia = tblMedia.getSelectionModel().getSelectedItem();
         if (selectedMedia instanceof Playable) {
-            ((Playable) selectedMedia).play();
-            showMessage("Playing media", "Playing \"" + selectedMedia.getTitle() + "\".");
+            try {
+                ((Playable) selectedMedia).play();
+                showMessage("Playing media", "Playing \"" + selectedMedia.getTitle() + "\".");
+            } catch (IllegalStateException exception) {
+                showMessage("Cannot play media", exception.getMessage());
+            }
         }
     }
 
@@ -133,7 +138,11 @@ public class CartController {
     private void btnRemovePressed(ActionEvent event) {
         Media selectedMedia = tblMedia.getSelectionModel().getSelectedItem();
         if (selectedMedia != null) {
-            cart.removeMedia(selectedMedia);
+            try {
+                cart.removeMedia(selectedMedia);
+            } catch (ItemNotFoundException exception) {
+                showMessage("Cannot remove media", exception.getMessage());
+            }
         }
     }
 

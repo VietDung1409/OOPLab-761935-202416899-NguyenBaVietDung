@@ -2,13 +2,16 @@ package hust.soict.hedspi.aims.media;
 
 import java.util.ArrayList;
 
+import hust.soict.hedspi.aims.exception.DuplicateItemException;
+import hust.soict.hedspi.aims.exception.ItemNotFoundException;
+
 public class CompactDisc extends Disc implements Playable {
     private String artist;
     private ArrayList<Track> tracks = new ArrayList<>();
 
     public CompactDisc(int id, String title, String category, float cost, String artist) {
         super(id, title, category, cost, 0, "");
-        this.artist = artist;
+        this.artist = requireText(artist, "CD artist");
     }
 
     public String getArtist() {
@@ -16,21 +19,21 @@ public class CompactDisc extends Disc implements Playable {
     }
 
     public void addTrack(Track track) {
-        if (!tracks.contains(track)) {
-            tracks.add(track);
-            System.out.println("Added track: " + track.getTitle());
-        } else {
-            System.out.println("Track already exists");
+        if (track == null) {
+            throw new IllegalArgumentException("Track must not be null.");
         }
+        if (tracks.contains(track)) {
+            throw new DuplicateItemException("Track already exists: " + track.getTitle());
+        }
+        tracks.add(track);
+        System.out.println("Added track: " + track.getTitle());
     }
 
     public void removeTrack(Track track) {
-        if (tracks.contains(track)) {
-            tracks.remove(track);
-            System.out.println("Removed track: " + track.getTitle());
-        } else {
-            System.out.println("Track not found");
+        if (track == null || !tracks.remove(track)) {
+            throw new ItemNotFoundException("Track is not listed.");
         }
+        System.out.println("Removed track: " + track.getTitle());
     }
 
     @Override
@@ -45,8 +48,7 @@ public class CompactDisc extends Disc implements Playable {
     @Override
     public void play() {
         if (tracks.isEmpty()) {
-            System.out.println("ERROR: CD has no tracks!");
-            return;
+            throw new IllegalStateException("Cannot play a CD without tracks.");
         }
 
         System.out.println("Playing CD: " + getTitle());

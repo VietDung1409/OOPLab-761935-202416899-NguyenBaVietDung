@@ -13,30 +13,47 @@ public class Aims {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-
-        //  Sample data
-        initStore();
+        try {
+            initStore();
+        } catch (RuntimeException exception) {
+            System.out.println("Cannot initialize store: " + exception.getMessage());
+            return;
+        }
 
         while (true) {
             showMenu();
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = readChoice();
 
-            switch (choice) {
-                case 1:
-                    viewStore();
-                    break;
-                case 2:
-                    updateStore();
-                    break;
-                case 3:
-                    seeCart();
-                    break;
-                case 0:
-                    System.out.println("Goodbye!");
-                    return;
-                default:
-                    System.out.println("Invalid choice!");
+            try {
+                switch (choice) {
+                    case 1:
+                        viewStore();
+                        break;
+                    case 2:
+                        updateStore();
+                        break;
+                    case 3:
+                        seeCart();
+                        break;
+                    case 0:
+                        System.out.println("Goodbye!");
+                        return;
+                    default:
+                        System.out.println("Invalid choice!");
+                }
+            } catch (RuntimeException exception) {
+                System.out.println("Operation failed: " + exception.getMessage());
+            }
+        }
+    }
+
+    private static int readChoice() {
+        while (true) {
+            String input = scanner.nextLine().trim();
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException exception) {
+                System.out.print("Please enter a number: ");
             }
         }
     }
@@ -96,8 +113,7 @@ public class Aims {
         store.print();
 
         storeMenu();
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        int choice = readChoice();
 
         switch (choice) {
             case 1:
@@ -119,17 +135,24 @@ public class Aims {
     public static void updateStore() {
         System.out.println("1. Add media");
         System.out.println("2. Remove media");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        int choice = readChoice();
 
         if (choice == 1) {
             System.out.print("Title: ");
             String title = scanner.nextLine();
             store.addMedia(new DigitalVideoDisc(0, title, "Unknown", "Unknown", 0, 0f));
-        } else {
+        } else if (choice == 2) {
             System.out.print("Title: ");
             String title = scanner.nextLine();
-            store.removeMedia(new DigitalVideoDisc(0, title, "", "", 0, 0f));
+            for (Media media : store.getItems()) {
+                if (media.getTitle().equalsIgnoreCase(title)) {
+                    store.removeMedia(media);
+                    return;
+                }
+            }
+            throw new IllegalArgumentException("Media not found: " + title);
+        } else {
+            System.out.println("Invalid choice!");
         }
     }
 
@@ -138,8 +161,7 @@ public class Aims {
         cart.print();
 
         cartMenu();
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        int choice = readChoice();
 
         switch (choice) {
             case 1:
@@ -210,8 +232,7 @@ public class Aims {
         System.out.println("1. Sort by title-cost");
         System.out.println("2. Sort by cost-title");
 
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        int choice = readChoice();
 
         if (choice == 1) {
             Collections.sort(cart.getItems(), Media.COMPARE_BY_TITLE_COST);
@@ -250,8 +271,7 @@ public class Aims {
                 System.out.println(m);
 
                 mediaDetailsMenu();
-                int choice = scanner.nextInt();
-                scanner.nextLine();
+                int choice = readChoice();
 
                 if (choice == 1) cart.addMedia(m);
                 if (choice == 2 && m instanceof Playable)

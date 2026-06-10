@@ -1,6 +1,7 @@
 package hust.soict.hedspi.aims.screen.customer.controller;
 
 import hust.soict.hedspi.aims.cart.Cart;
+import hust.soict.hedspi.aims.exception.CartFullException;
 import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.media.Playable;
 import javafx.event.ActionEvent;
@@ -41,21 +42,23 @@ public class ItemController {
 
     @FXML
     private void btnAddToCartClicked(ActionEvent event) {
-        if (cart.getItems().size() >= Cart.MAX_NUMBERS_ORDERED) {
-            showMessage("Cart is full",
-                    "The cart can contain at most " + Cart.MAX_NUMBERS_ORDERED + " items.");
-            return;
+        try {
+            cart.addMedia(media);
+            showMessage("Added to cart", "\"" + media.getTitle() + "\" was added to your cart.");
+        } catch (CartFullException exception) {
+            showMessage("Cart is full", exception.getMessage());
         }
-
-        cart.addMedia(media);
-        showMessage("Added to cart", "\"" + media.getTitle() + "\" was added to your cart.");
     }
 
     @FXML
     private void btnPlayClicked(ActionEvent event) {
         if (media instanceof Playable) {
-            ((Playable) media).play();
-            showMessage("Playing media", "Playing \"" + media.getTitle() + "\".");
+            try {
+                ((Playable) media).play();
+                showMessage("Playing media", "Playing \"" + media.getTitle() + "\".");
+            } catch (IllegalStateException exception) {
+                showMessage("Cannot play media", exception.getMessage());
+            }
         }
     }
 

@@ -59,6 +59,10 @@ public class AddCompactDiscToStoreScreen extends AddItemToStoreScreen {
             JOptionPane.showMessageDialog(this,
                     "Please enter valid numbers for ID and Cost.",
                     "Input Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            JOptionPane.showMessageDialog(this,
+                    ex.getMessage(),
+                    "Validation Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

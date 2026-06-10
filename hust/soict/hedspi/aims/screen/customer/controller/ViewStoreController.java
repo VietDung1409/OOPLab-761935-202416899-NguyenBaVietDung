@@ -80,7 +80,8 @@ public class ViewStoreController {
 
                 gridPane.add(item, i % STORE_COLUMNS, i / STORE_COLUMNS);
             } catch (IOException exception) {
-                exception.printStackTrace();
+                throw new IllegalStateException(
+                        "Cannot load item view for " + media.getTitle(), exception);
             }
         }
     }

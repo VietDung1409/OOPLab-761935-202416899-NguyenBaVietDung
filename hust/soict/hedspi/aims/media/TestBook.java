@@ -6,12 +6,20 @@ public class TestBook {
 
         b.addAuthor("Nguyen Van A");
         b.addAuthor("Tran Van B");
-        b.addAuthor("Nguyen Van A"); // test trùng
+        try {
+            b.addAuthor("Nguyen Van A"); // test duplicate
+        } catch (RuntimeException exception) {
+            System.out.println("Handled: " + exception.getMessage());
+        }
 
         System.out.println(b);
 
         b.removeAuthor("Tran Van B");
-        b.removeAuthor("ABC"); // test không tồn tại
+        try {
+            b.removeAuthor("ABC"); // test missing author
+        } catch (RuntimeException exception) {
+            System.out.println("Handled: " + exception.getMessage());
+        }
 
         System.out.println(b);
     }

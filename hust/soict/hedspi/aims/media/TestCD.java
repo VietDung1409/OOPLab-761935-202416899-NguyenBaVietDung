@@ -8,7 +8,11 @@ public class TestCD {
 
         cd.addTrack(t1);
         cd.addTrack(t2);
-        cd.addTrack(t1); // test trùng
+        try {
+            cd.addTrack(t1); // test duplicate
+        } catch (RuntimeException exception) {
+            System.out.println("Handled: " + exception.getMessage());
+        }
 
         System.out.println("Total length: " + cd.getLength());
 

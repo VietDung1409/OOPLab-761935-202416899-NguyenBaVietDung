@@ -2,6 +2,8 @@ package hust.soict.hedspi.aims.cart;
 
 import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.media.DigitalVideoDisc;
+import hust.soict.hedspi.aims.exception.CartFullException;
+import hust.soict.hedspi.aims.exception.ItemNotFoundException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -11,9 +13,12 @@ public class Cart {
 
     // Thêm Media (DVD, Book, CD)
     public void addMedia(Media media) {
+        if (media == null) {
+            throw new IllegalArgumentException("Media must not be null.");
+        }
         if (itemsOrdered.size() >= MAX_NUMBERS_ORDERED) {
-            System.out.println("The cart is almost full");
-            return;
+            throw new CartFullException(
+                    "The cart can contain at most " + MAX_NUMBERS_ORDERED + " items.");
         }
         itemsOrdered.add(media);
         System.out.println("The media \"" + media.getTitle() + "\" has been added");
@@ -26,11 +31,10 @@ public class Cart {
 
     // Xóa Media
     public void removeMedia(Media media) {
-        if (itemsOrdered.remove(media)) {
-            System.out.println("The media has been removed");
-        } else {
-            System.out.println("The media is not in the cart");
+        if (media == null || !itemsOrdered.remove(media)) {
+            throw new ItemNotFoundException("The media is not in the cart.");
         }
+        System.out.println("The media has been removed");
     }
 
     // Lấy danh sách items

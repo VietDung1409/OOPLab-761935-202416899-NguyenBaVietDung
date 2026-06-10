@@ -1,6 +1,9 @@
 package hust.soict.hedspi.aims.media;
 
 import java.util.Comparator;
+import java.util.Objects;
+
+import hust.soict.hedspi.aims.exception.InvalidMediaException;
 
 public abstract class Media {
     private int id;
@@ -12,10 +15,10 @@ public abstract class Media {
     public Media() {}
 
     public Media(int id, String title, String category, float cost) {
-        this.id = id;
-        this.title = title;
-        this.category = category;
-        this.cost = cost;
+        setId(id);
+        setTitle(title);
+        setCategory(category);
+        setCost(cost);
     }
 
     // Getter & Setter
@@ -24,6 +27,9 @@ public abstract class Media {
     }
 
     public void setId(int id) {
+        if (id < 0) {
+            throw new InvalidMediaException("Media ID must be non-negative.");
+        }
         this.id = id;
     }    
 
@@ -32,7 +38,7 @@ public abstract class Media {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = requireText(title, "Media title");
     }
 
     public String getCategory() {
@@ -40,7 +46,7 @@ public abstract class Media {
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        this.category = requireText(category, "Media category");
     }
 
     public float getCost() {
@@ -48,7 +54,17 @@ public abstract class Media {
     }
 
     public void setCost(float cost) {
+        if (!Float.isFinite(cost) || cost < 0) {
+            throw new InvalidMediaException("Media cost must be a finite, non-negative number.");
+        }
         this.cost = cost;
+    }
+
+    protected static String requireText(String value, String fieldName) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new InvalidMediaException(fieldName + " must not be blank.");
+        }
+        return value.trim();
     }
 
     // =========================
@@ -64,12 +80,18 @@ public abstract class Media {
         return this.title != null && this.title.equals(other.title);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(title);
+    }
+
     // =========================
     // LAB 16: toString (polymorphism)
     // =========================
     // isMatch: tìm theo title (không phân biệt hoa thường)
     public boolean isMatch(String searchTitle) {
-        return this.title != null && this.title.toLowerCase().contains(searchTitle.toLowerCase());
+        return searchTitle != null
+                && this.title.toLowerCase().contains(searchTitle.toLowerCase());
     }
 
     @Override

@@ -1,6 +1,8 @@
 package hust.soict.hedspi.aims.store;
 
 import java.util.ArrayList;
+import hust.soict.hedspi.aims.exception.DuplicateItemException;
+import hust.soict.hedspi.aims.exception.ItemNotFoundException;
 import hust.soict.hedspi.aims.media.Media;
 
 public class Store {
@@ -8,6 +10,13 @@ public class Store {
 
     // Thêm Media (DVD, Book, CD đều được)
     public void addMedia(Media media) {
+        if (media == null) {
+            throw new IllegalArgumentException("Media must not be null.");
+        }
+        if (itemsInStore.contains(media)) {
+            throw new DuplicateItemException(
+                    "The media is already in the store: " + media.getTitle());
+        }
         itemsInStore.add(media);
         System.out.println("The media \"" + media.getTitle() + "\" has been added to the store");
     }
@@ -19,11 +28,10 @@ public class Store {
 
     // Xóa Media
     public void removeMedia(Media media) {
-        if (itemsInStore.remove(media)) {
-            System.out.println("The media \"" + media.getTitle() + "\" has been removed from the store");
-        } else {
-            System.out.println("The media is not in the store");
+        if (media == null || !itemsInStore.remove(media)) {
+            throw new ItemNotFoundException("The media is not in the store.");
         }
+        System.out.println("The media \"" + media.getTitle() + "\" has been removed from the store");
     }
 
     // Alias cho StoreTest

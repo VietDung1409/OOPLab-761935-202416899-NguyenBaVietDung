@@ -154,14 +154,19 @@ public class StoreManagerFX extends Application {
 
         dialog.showAndWait().ifPresent(result -> {
             if (result == ButtonType.OK) {
-                Book book = new Book(nextId++, title.getText(), category.getText(), parseCost(cost.getText()));
-                for (String author : authors.getText().split(",")) {
-                    if (!author.trim().isEmpty()) {
-                        book.addAuthor(author.trim());
+                try {
+                    Book book = new Book(nextId, title.getText(), category.getText(), parseCost(cost.getText()));
+                    for (String author : authors.getText().split(",")) {
+                        if (!author.trim().isEmpty()) {
+                            book.addAuthor(author.trim());
+                        }
                     }
+                    store.addMedia(book);
+                    nextId++;
+                    reloadStoreView();
+                } catch (IllegalArgumentException | IllegalStateException exception) {
+                    showError(exception.getMessage());
                 }
-                store.addMedia(book);
-                reloadStoreView();
             }
         });
     }
@@ -178,10 +183,15 @@ public class StoreManagerFX extends Application {
 
         dialog.showAndWait().ifPresent(result -> {
             if (result == ButtonType.OK) {
-                CompactDisc cd = new CompactDisc(nextId++, title.getText(), category.getText(),
-                        parseCost(cost.getText()), artist.getText());
-                store.addMedia(cd);
-                reloadStoreView();
+                try {
+                    CompactDisc cd = new CompactDisc(nextId, title.getText(), category.getText(),
+                            parseCost(cost.getText()), artist.getText());
+                    store.addMedia(cd);
+                    nextId++;
+                    reloadStoreView();
+                } catch (IllegalArgumentException | IllegalStateException exception) {
+                    showError(exception.getMessage());
+                }
             }
         });
     }
@@ -199,10 +209,15 @@ public class StoreManagerFX extends Application {
 
         dialog.showAndWait().ifPresent(result -> {
             if (result == ButtonType.OK) {
-                DigitalVideoDisc dvd = new DigitalVideoDisc(nextId++, title.getText(), category.getText(),
-                        director.getText(), parseLength(length.getText()), parseCost(cost.getText()));
-                store.addMedia(dvd);
-                reloadStoreView();
+                try {
+                    DigitalVideoDisc dvd = new DigitalVideoDisc(nextId, title.getText(), category.getText(),
+                            director.getText(), parseLength(length.getText()), parseCost(cost.getText()));
+                    store.addMedia(dvd);
+                    nextId++;
+                    reloadStoreView();
+                } catch (IllegalArgumentException | IllegalStateException exception) {
+                    showError(exception.getMessage());
+                }
             }
         });
     }
@@ -247,11 +262,19 @@ public class StoreManagerFX extends Application {
         alert.showAndWait();
     }
 
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Input Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     private float parseCost(String value) {
         try {
             return Float.parseFloat(value.trim());
         } catch (NumberFormatException exception) {
-            return 0;
+            throw new IllegalArgumentException("Cost must be a valid number.", exception);
         }
     }
 
@@ -259,7 +282,7 @@ public class StoreManagerFX extends Application {
         try {
             return Integer.parseInt(value.trim());
         } catch (NumberFormatException exception) {
-            return 0;
+            throw new IllegalArgumentException("Length must be a valid integer.", exception);
         }
     }
 
