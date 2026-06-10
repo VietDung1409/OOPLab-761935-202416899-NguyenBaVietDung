@@ -125,6 +125,7 @@ public class CartController {
         Media selectedMedia = tblMedia.getSelectionModel().getSelectedItem();
         if (selectedMedia instanceof Playable) {
             ((Playable) selectedMedia).play();
+            showMessage("Playing media", "Playing \"" + selectedMedia.getTitle() + "\".");
         }
     }
 

@@ -5,6 +5,7 @@ import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.media.Playable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
@@ -40,13 +41,29 @@ public class ItemController {
 
     @FXML
     private void btnAddToCartClicked(ActionEvent event) {
+        if (cart.getItems().size() >= Cart.MAX_NUMBERS_ORDERED) {
+            showMessage("Cart is full",
+                    "The cart can contain at most " + Cart.MAX_NUMBERS_ORDERED + " items.");
+            return;
+        }
+
         cart.addMedia(media);
+        showMessage("Added to cart", "\"" + media.getTitle() + "\" was added to your cart.");
     }
 
     @FXML
     private void btnPlayClicked(ActionEvent event) {
         if (media instanceof Playable) {
             ((Playable) media).play();
+            showMessage("Playing media", "Playing \"" + media.getTitle() + "\".");
         }
+    }
+
+    private void showMessage(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
