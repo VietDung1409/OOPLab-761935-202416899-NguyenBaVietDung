@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import hust.soict.hedspi.aims.cart.Cart;
 import hust.soict.hedspi.aims.exception.ItemNotFoundException;
+import hust.soict.hedspi.aims.exception.PlayerException;
 import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.media.Playable;
 import hust.soict.hedspi.aims.store.Store;
@@ -128,7 +129,7 @@ public class CartController {
             try {
                 ((Playable) selectedMedia).play();
                 showMessage("Playing media", "Playing \"" + selectedMedia.getTitle() + "\".");
-            } catch (IllegalStateException exception) {
+            } catch (PlayerException exception) {
                 showMessage("Cannot play media", exception.getMessage());
             }
         }

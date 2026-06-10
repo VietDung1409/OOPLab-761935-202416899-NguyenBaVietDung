@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import hust.soict.hedspi.aims.exception.DuplicateItemException;
 import hust.soict.hedspi.aims.exception.ItemNotFoundException;
+import hust.soict.hedspi.aims.exception.PlayerException;
 
 public class CompactDisc extends Disc implements Playable {
     private String artist;
@@ -46,16 +47,26 @@ public class CompactDisc extends Disc implements Playable {
     }
 
     @Override
-    public void play() {
-        if (tracks.isEmpty()) {
-            throw new IllegalStateException("Cannot play a CD without tracks.");
+    public void play() throws PlayerException {
+        if (getLength() <= 0) {
+            String message = "Cannot play CD \"" + getTitle()
+                    + "\": total length must be positive.";
+            System.err.println(message);
+            throw new PlayerException(message);
         }
 
         System.out.println("Playing CD: " + getTitle());
         System.out.println("Artist: " + artist);
 
         for (Track t : tracks) {
-            t.play(); 
+            try {
+                t.play();
+            } catch (PlayerException exception) {
+                String message = "Cannot play CD \"" + getTitle()
+                        + "\" because track \"" + t.getTitle() + "\" cannot be played.";
+                System.err.println(message);
+                throw new PlayerException(message, exception);
+            }
         }
     }
 }

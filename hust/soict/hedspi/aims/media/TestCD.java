@@ -1,6 +1,6 @@
 package hust.soict.hedspi.aims.media; 
 public class TestCD {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         CompactDisc cd = new CompactDisc(1, "Hits", "Music", 15.0f, "Artist A");
 
         Track t1 = new Track("Song 1", 3);

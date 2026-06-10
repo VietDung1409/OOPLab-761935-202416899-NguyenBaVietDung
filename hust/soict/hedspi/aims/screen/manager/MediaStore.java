@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.media.Playable;
+import hust.soict.hedspi.aims.exception.PlayerException;
 
 /**
  * GUI panel representing one Media item in the Store screen.
@@ -56,6 +57,16 @@ public class MediaStore extends JPanel {
      * Show a JDialog with play information for the media.
      */
     private void showPlayDialog() {
+        try {
+            ((Playable) media).play();
+        } catch (PlayerException exception) {
+            JOptionPane.showMessageDialog(this,
+                    exception.getMessage(),
+                    "Playback Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),
                 "Now Playing", true);
         dialog.setSize(300, 180);

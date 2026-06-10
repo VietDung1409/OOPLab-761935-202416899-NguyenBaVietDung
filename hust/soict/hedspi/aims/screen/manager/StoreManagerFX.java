@@ -7,6 +7,7 @@ import hust.soict.hedspi.aims.media.Disc;
 import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.media.Playable;
 import hust.soict.hedspi.aims.media.Track;
+import hust.soict.hedspi.aims.exception.PlayerException;
 import hust.soict.hedspi.aims.store.Store;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -246,11 +247,16 @@ public class StoreManagerFX extends Application {
     }
 
     private void showPlay(Media media) {
-        if (media instanceof Disc) {
-            Disc disc = (Disc) media;
-            showInfo("Playing", media.getTitle() + "\nLength: " + disc.getLength());
-        } else {
-            showInfo("Playing", media.getTitle());
+        try {
+            ((Playable) media).play();
+            if (media instanceof Disc) {
+                Disc disc = (Disc) media;
+                showInfo("Playing", media.getTitle() + "\nLength: " + disc.getLength());
+            } else {
+                showInfo("Playing", media.getTitle());
+            }
+        } catch (PlayerException exception) {
+            showError(exception.getMessage());
         }
     }
 

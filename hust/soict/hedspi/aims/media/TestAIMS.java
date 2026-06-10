@@ -1,7 +1,7 @@
 package hust.soict.hedspi.aims.media;
 
 public class TestAIMS {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // DigitalVideoDisc(id, title, category, director, length, cost)
         DigitalVideoDisc dvd = new DigitalVideoDisc(1, "Lion King", "Animation", "Roger", 90, 19.95f);
         dvd.play();

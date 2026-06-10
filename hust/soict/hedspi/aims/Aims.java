@@ -1,6 +1,7 @@
 package hust.soict.hedspi.aims;
 
 import hust.soict.hedspi.aims.cart.Cart;
+import hust.soict.hedspi.aims.exception.PlayerException;
 import hust.soict.hedspi.aims.media.*;
 import hust.soict.hedspi.aims.store.Store;
 import java.util.Collections;
@@ -205,7 +206,11 @@ public class Aims {
 
         for (Media m : cart.getItems()) {
             if (m.getTitle().equalsIgnoreCase(title) && m instanceof Playable) {
-                ((Playable) m).play();
+                try {
+                    ((Playable) m).play();
+                } catch (PlayerException exception) {
+                    System.err.println(exception.getMessage());
+                }
                 return;
             }
         }
@@ -219,7 +224,11 @@ public class Aims {
 
         for (Media m : store.getItems()) {
             if (m.getTitle().equalsIgnoreCase(title) && m instanceof Playable) {
-                ((Playable) m).play();
+                try {
+                    ((Playable) m).play();
+                } catch (PlayerException exception) {
+                    System.err.println(exception.getMessage());
+                }
                 return;
             }
         }
@@ -274,8 +283,13 @@ public class Aims {
                 int choice = readChoice();
 
                 if (choice == 1) cart.addMedia(m);
-                if (choice == 2 && m instanceof Playable)
-                    ((Playable) m).play();
+                if (choice == 2 && m instanceof Playable) {
+                    try {
+                        ((Playable) m).play();
+                    } catch (PlayerException exception) {
+                        System.err.println(exception.getMessage());
+                    }
+                }
 
                 return;
             }

@@ -2,6 +2,7 @@ package hust.soict.hedspi.aims.screen.customer.controller;
 
 import hust.soict.hedspi.aims.cart.Cart;
 import hust.soict.hedspi.aims.exception.CartFullException;
+import hust.soict.hedspi.aims.exception.PlayerException;
 import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.media.Playable;
 import javafx.event.ActionEvent;
@@ -56,7 +57,7 @@ public class ItemController {
             try {
                 ((Playable) media).play();
                 showMessage("Playing media", "Playing \"" + media.getTitle() + "\".");
-            } catch (IllegalStateException exception) {
+            } catch (PlayerException exception) {
                 showMessage("Cannot play media", exception.getMessage());
             }
         }

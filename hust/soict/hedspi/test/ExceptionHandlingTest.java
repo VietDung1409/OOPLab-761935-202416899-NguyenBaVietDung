@@ -5,6 +5,7 @@ import hust.soict.hedspi.aims.exception.CartFullException;
 import hust.soict.hedspi.aims.exception.DuplicateItemException;
 import hust.soict.hedspi.aims.exception.InvalidMediaException;
 import hust.soict.hedspi.aims.exception.ItemNotFoundException;
+import hust.soict.hedspi.aims.exception.PlayerException;
 import hust.soict.hedspi.aims.media.Book;
 import hust.soict.hedspi.aims.media.CompactDisc;
 import hust.soict.hedspi.aims.media.DigitalVideoDisc;
@@ -20,8 +21,15 @@ public class ExceptionHandlingTest {
                 () -> new Book(1, "Java", "Programming", -1),
                 "negative media cost");
         expect(InvalidMediaException.class,
-                () -> new Track("Song", 0),
-                "non-positive track length");
+                () -> new Track("Song", -1),
+                "negative track length");
+        expect(PlayerException.class,
+                () -> new Track("Silent Track", 0).play(),
+                "playing a zero-length track");
+        expect(PlayerException.class,
+                () -> new DigitalVideoDisc(
+                        10, "Invalid DVD", "Movie", "Director", 0, 10).play(),
+                "playing a zero-length DVD");
 
         Book book = new Book(2, "Clean Code", "Programming", 20);
         book.addAuthor("Robert C. Martin");
@@ -41,9 +49,17 @@ public class ExceptionHandlingTest {
         expect(ItemNotFoundException.class,
                 () -> cd.removeTrack(new Track("Missing", 2)),
                 "missing track");
-        expect(IllegalStateException.class,
+        expect(PlayerException.class,
                 () -> new CompactDisc(4, "Empty Album", "Music", 12, "Artist").play(),
                 "playing an empty CD");
+
+        CompactDisc partiallyInvalidCd = new CompactDisc(
+                6, "Mixed Album", "Music", 12, "Artist");
+        partiallyInvalidCd.addTrack(new Track("Valid Track", 3));
+        partiallyInvalidCd.addTrack(new Track("Invalid Track", 0));
+        expect(PlayerException.class,
+                partiallyInvalidCd::play,
+                "CD delegates a track playback failure");
 
         Store store = new Store();
         DigitalVideoDisc dvd = new DigitalVideoDisc(
@@ -68,12 +84,12 @@ public class ExceptionHandlingTest {
     }
 
     private static void expect(
-            Class<? extends RuntimeException> expectedType,
-            Runnable action,
+            Class<? extends Exception> expectedType,
+            ThrowingRunnable action,
             String scenario) {
         try {
             action.run();
-        } catch (RuntimeException exception) {
+        } catch (Exception exception) {
             if (expectedType.isInstance(exception)) {
                 System.out.println("PASS: " + scenario);
                 return;
@@ -82,5 +98,10 @@ public class ExceptionHandlingTest {
                     "Unexpected exception for " + scenario + ": " + exception, exception);
         }
         throw new AssertionError("Expected exception was not thrown for " + scenario);
+    }
+
+    @FunctionalInterface
+    private interface ThrowingRunnable {
+        void run() throws Exception;
     }
 }
