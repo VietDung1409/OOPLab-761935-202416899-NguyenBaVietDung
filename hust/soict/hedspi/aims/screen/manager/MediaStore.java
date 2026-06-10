@@ -60,8 +60,11 @@ public class MediaStore extends JPanel {
         try {
             ((Playable) media).play();
         } catch (PlayerException exception) {
+            System.err.println(exception.getMessage());
+            System.err.println(exception.toString());
+            exception.printStackTrace();
             JOptionPane.showMessageDialog(this,
-                    exception.getMessage(),
+                    formatPlayerException(exception),
                     "Playback Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
@@ -91,5 +94,9 @@ public class MediaStore extends JPanel {
         dialog.add(btnPanel, BorderLayout.SOUTH);
 
         dialog.setVisible(true);
+    }
+
+    private String formatPlayerException(PlayerException exception) {
+        return exception.toString() + "\nMessage: " + exception.getMessage();
     }
 }

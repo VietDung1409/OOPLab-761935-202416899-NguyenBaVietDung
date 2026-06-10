@@ -58,9 +58,20 @@ public class ItemController {
                 ((Playable) media).play();
                 showMessage("Playing media", "Playing \"" + media.getTitle() + "\".");
             } catch (PlayerException exception) {
-                showMessage("Cannot play media", exception.getMessage());
+                logPlayerException(exception);
+                showMessage("Cannot play media", formatPlayerException(exception));
             }
         }
+    }
+
+    private void logPlayerException(PlayerException exception) {
+        System.err.println(exception.getMessage());
+        System.err.println(exception.toString());
+        exception.printStackTrace();
+    }
+
+    private String formatPlayerException(PlayerException exception) {
+        return exception.toString() + "\nMessage: " + exception.getMessage();
     }
 
     private void showMessage(String title, String message) {

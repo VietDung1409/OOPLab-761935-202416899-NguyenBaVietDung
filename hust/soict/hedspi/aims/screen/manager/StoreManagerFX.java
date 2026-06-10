@@ -256,8 +256,19 @@ public class StoreManagerFX extends Application {
                 showInfo("Playing", media.getTitle());
             }
         } catch (PlayerException exception) {
-            showError(exception.getMessage());
+            logPlayerException(exception);
+            showError(formatPlayerException(exception));
         }
+    }
+
+    private void logPlayerException(PlayerException exception) {
+        System.err.println(exception.getMessage());
+        System.err.println(exception.toString());
+        exception.printStackTrace();
+    }
+
+    private String formatPlayerException(PlayerException exception) {
+        return exception.toString() + "\nMessage: " + exception.getMessage();
     }
 
     private void showInfo(String title, String message) {

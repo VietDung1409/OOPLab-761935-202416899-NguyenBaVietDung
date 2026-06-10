@@ -62,6 +62,10 @@ public class CompactDisc extends Disc implements Playable {
             try {
                 t.play();
             } catch (PlayerException exception) {
+                System.err.println("Track error message: " + exception.getMessage());
+                System.err.println("Track exception: " + exception.toString());
+                exception.printStackTrace();
+
                 String message = "Cannot play CD \"" + getTitle()
                         + "\" because track \"" + t.getTitle() + "\" cannot be played.";
                 System.err.println(message);

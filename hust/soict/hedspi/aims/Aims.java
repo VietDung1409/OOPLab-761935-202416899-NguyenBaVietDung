@@ -209,7 +209,7 @@ public class Aims {
                 try {
                     ((Playable) m).play();
                 } catch (PlayerException exception) {
-                    System.err.println(exception.getMessage());
+                    handlePlayerException(exception);
                 }
                 return;
             }
@@ -227,7 +227,7 @@ public class Aims {
                 try {
                     ((Playable) m).play();
                 } catch (PlayerException exception) {
-                    System.err.println(exception.getMessage());
+                    handlePlayerException(exception);
                 }
                 return;
             }
@@ -287,7 +287,7 @@ public class Aims {
                     try {
                         ((Playable) m).play();
                     } catch (PlayerException exception) {
-                        System.err.println(exception.getMessage());
+                        handlePlayerException(exception);
                     }
                 }
 
@@ -296,6 +296,12 @@ public class Aims {
         }
 
         System.out.println("Not found!");
+    }
+
+    private static void handlePlayerException(PlayerException exception) {
+        System.err.println("Message: " + exception.getMessage());
+        System.err.println("Exception: " + exception.toString());
+        exception.printStackTrace();
     }
 
     // ================= SAMPLE DATA =================
