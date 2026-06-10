@@ -1,5 +1,6 @@
 package hust.soict.hedspi.aims.screen.customer.controller;
 
+import hust.soict.hedspi.aims.cart.Cart;
 import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.media.Playable;
 import javafx.event.ActionEvent;
@@ -8,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class ItemController {
+    private final Cart cart;
     private Media media;
 
     @FXML
@@ -22,6 +24,10 @@ public class ItemController {
     @FXML
     private Button btnPlay;
 
+    public ItemController(Cart cart) {
+        this.cart = cart;
+    }
+
     public void setData(Media media) {
         this.media = media;
         lblTitle.setText(media.getTitle());
@@ -34,7 +40,7 @@ public class ItemController {
 
     @FXML
     private void btnAddToCartClicked(ActionEvent event) {
-        System.out.println("Add to cart: " + media.getTitle());
+        cart.addMedia(media);
     }
 
     @FXML

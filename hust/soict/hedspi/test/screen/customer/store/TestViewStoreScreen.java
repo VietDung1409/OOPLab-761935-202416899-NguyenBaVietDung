@@ -1,5 +1,6 @@
 package hust.soict.hedspi.test.screen.customer.store;
 
+import hust.soict.hedspi.aims.cart.Cart;
 import hust.soict.hedspi.aims.media.Book;
 import hust.soict.hedspi.aims.media.CompactDisc;
 import hust.soict.hedspi.aims.media.DigitalVideoDisc;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 
 public class TestViewStoreScreen extends Application {
     private final Store store = createStore();
+    private final Cart cart = new Cart();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -21,7 +23,7 @@ public class TestViewStoreScreen extends Application {
                 "/hust/soict/hedspi/aims/screen/customer/view/Store.fxml"));
         loader.setControllerFactory(controllerClass -> {
             if (controllerClass == ViewStoreController.class) {
-                return new ViewStoreController(store);
+                return new ViewStoreController(store, cart);
             }
             throw new IllegalArgumentException("Unsupported controller: " + controllerClass.getName());
         });

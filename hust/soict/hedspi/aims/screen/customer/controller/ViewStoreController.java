@@ -2,29 +2,28 @@ package hust.soict.hedspi.aims.screen.customer.controller;
 
 import java.io.IOException;
 
+import hust.soict.hedspi.aims.cart.Cart;
 import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.store.Store;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.layout.GridPane;
 
 public class ViewStoreController {
     private static final int STORE_COLUMNS = 3;
 
-    private Store store;
+    private final Store store;
+    private final Cart cart;
 
     @FXML
     private GridPane gridPane;
 
-    public ViewStoreController(Store store) {
+    public ViewStoreController(Store store, Cart cart) {
         this.store = store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-        loadStoreItems();
+        this.cart = cart;
     }
 
     @FXML
@@ -34,7 +33,21 @@ public class ViewStoreController {
 
     @FXML
     private void btnViewCartPressed(ActionEvent event) {
-        System.out.println("View cart button pressed");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/hust/soict/hedspi/aims/screen/customer/view/Cart.fxml"));
+            loader.setControllerFactory(controllerClass -> {
+                if (controllerClass == CartController.class) {
+                    return new CartController(cart, store);
+                }
+                throw new IllegalArgumentException(
+                        "Unsupported controller: " + controllerClass.getName());
+            });
+            Parent root = loader.load();
+            ((Node) event.getSource()).getScene().setRoot(root);
+        } catch (IOException exception) {
+            throw new IllegalStateException("Cannot open the cart screen", exception);
+        }
     }
 
     private void loadStoreItems() {
@@ -50,6 +63,13 @@ public class ViewStoreController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(
                         "/hust/soict/hedspi/aims/screen/customer/view/Item.fxml"));
+                loader.setControllerFactory(controllerClass -> {
+                    if (controllerClass == ItemController.class) {
+                        return new ItemController(cart);
+                    }
+                    throw new IllegalArgumentException(
+                            "Unsupported controller: " + controllerClass.getName());
+                });
                 Node item = loader.load();
 
                 ItemController itemController = loader.getController();

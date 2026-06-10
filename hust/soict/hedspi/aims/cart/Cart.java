@@ -1,12 +1,13 @@
 package hust.soict.hedspi.aims.cart;
 
-import java.util.ArrayList;
 import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.media.DigitalVideoDisc;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Cart {
     public static final int MAX_NUMBERS_ORDERED = 20;
-    private ArrayList<Media> itemsOrdered = new ArrayList<>();
+    private ObservableList<Media> itemsOrdered = FXCollections.observableArrayList();
 
     // Thêm Media (DVD, Book, CD)
     public void addMedia(Media media) {
@@ -33,8 +34,12 @@ public class Cart {
     }
 
     // Lấy danh sách items
-    public ArrayList<Media> getItems() {
+    public ObservableList<Media> getItems() {
         return itemsOrdered;
+    }
+
+    public void clear() {
+        itemsOrdered.clear();
     }
 
     // Tổng tiền
