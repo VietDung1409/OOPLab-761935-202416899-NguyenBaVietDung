@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import hust.soict.hedspi.aims.exception.InvalidMediaException;
 
-public abstract class Media {
+public abstract class Media implements Comparable<Media> {
     private int id;
     private String title;
     private String category;
@@ -72,17 +72,32 @@ public abstract class Media {
     // =========================
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (!(obj instanceof Media)) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Media)) {
+            return false;
+        }
 
         Media other = (Media) obj;
-        return this.title != null && this.title.equals(other.title);
+        return title.equals(other.title)
+                && Float.compare(cost, other.cost) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title);
+        return Objects.hash(title, cost);
+    }
+
+    @Override
+    public int compareTo(Media other) {
+        Objects.requireNonNull(other, "Media to compare must not be null.");
+
+        int titleComparison = title.compareTo(other.title);
+        if (titleComparison != 0) {
+            return titleComparison;
+        }
+        return Float.compare(cost, other.cost);
     }
 
     // =========================
